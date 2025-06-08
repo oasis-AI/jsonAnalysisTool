@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON工具 - 在线JSON格式化、验证、压缩工具</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fab fa-js-square"></i> JSON.工具</h1>
+            </div>
+            <nav class="nav">
+                <div class="nav-group">
+                    <span class="nav-label">JSON工具</span>
+                    <div class="nav-dropdown">
+                        <button class="nav-btn active" data-tool="formatter">
+                            <i class="fas fa-code"></i> 格式化
+                        </button>
+                        <button class="nav-btn" data-tool="validator">
+                            <i class="fas fa-check-circle"></i> 验证
+                        </button>
+                        <button class="nav-btn" data-tool="minify">
+                            <i class="fas fa-compress"></i> 压缩
+                        </button>
+                        <button class="nav-btn" data-tool="compare">
+                            <i class="fas fa-exchange-alt"></i> 对比
+                        </button>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">常用工具</span>
+                    <div class="nav-dropdown">
+                        <button class="nav-btn" data-tool="base64">
+                            <i class="fas fa-key"></i> Base64
+                        </button>
+                        <button class="nav-btn" data-tool="url">
+                            <i class="fas fa-link"></i> URL编码
+                        </button>
+                        <button class="nav-btn" data-tool="timestamp">
+                            <i class="fas fa-clock"></i> 时间戳
+                        </button>
+                    </div>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">图片工具</span>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">网络工具</span>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">文本工具</span>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">编码加密</span>
+                </div>
+                <div class="nav-group">
+                    <span class="nav-label">应用广场</span>
+                </div>
+            </nav>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="fullscreen-btn" id="fullscreenBtn">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- JSON格式化工具 -->
+            <div class="tool-section active" id="formatter">
+                <div class="tool-header">
+                    <h2><i class="fas fa-code"></i> JSON格式化</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="formatBtn">
+                            <i class="fas fa-magic"></i> 格式化
+                        </button>
+                        <button class="btn btn-secondary" id="clearBtn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                        <button class="btn btn-secondary" id="copyBtn">
+                            <i class="fas fa-copy"></i> 复制
+                        </button>
+                        <button class="btn btn-secondary" id="downloadBtn">
+                            <i class="fas fa-download"></i> 下载
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="editor-container">
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>输入JSON数据...</span>
+                            <div class="panel-stats">
+                                <span id="inputStats">字符: 0</span>
+                            </div>
+                        </div>
+                        <textarea id="jsonInput" placeholder="请输入JSON数据...&#10;&#10;示例:&#10;{&#10;  &quot;name&quot;: &quot;张三&quot;,&#10;  &quot;age&quot;: 25,&#10;  &quot;city&quot;: &quot;北京&quot;&#10;}"></textarea>
+                    </div>
+                    
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>格式化结果</span>
+                            <div class="panel-stats">
+                                <span id="outputStats">字符: 0</span>
+                                <span class="status" id="validationStatus">
+                                    <i class="fas fa-circle text-gray"></i> 待验证
+                                </span>
+                            </div>
+                        </div>
+                        <div id="jsonOutput" class="json-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JSON验证工具 -->
+            <div class="tool-section" id="validator">
+                <div class="tool-header">
+                    <h2><i class="fas fa-check-circle"></i> JSON验证</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="validateBtn">
+                            <i class="fas fa-check"></i> 验证
+                        </button>
+                        <button class="btn btn-secondary" id="clearValidatorBtn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="validator-container">
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>待验证的JSON</span>
+                        </div>
+                        <textarea id="validateInput" placeholder="请输入需要验证的JSON数据..."></textarea>
+                    </div>
+                    
+                    <div class="validation-result">
+                        <div class="result-header">
+                            <span>验证结果</span>
+                        </div>
+                        <div id="validationResult" class="result-content">
+                            <div class="result-placeholder">
+                                <i class="fas fa-search"></i>
+                                <p>请输入JSON数据进行验证</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JSON压缩工具 -->
+            <div class="tool-section" id="minify">
+                <div class="tool-header">
+                    <h2><i class="fas fa-compress"></i> JSON压缩</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="minifyBtn">
+                            <i class="fas fa-compress"></i> 压缩
+                        </button>
+                        <button class="btn btn-secondary" id="clearMinifyBtn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                        <button class="btn btn-secondary" id="copyMinifyBtn">
+                            <i class="fas fa-copy"></i> 复制结果
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="editor-container">
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>原始JSON</span>
+                            <div class="panel-stats">
+                                <span id="minifyInputStats">字符: 0</span>
+                            </div>
+                        </div>
+                        <textarea id="minifyInput" placeholder="请输入需要压缩的JSON数据..."></textarea>
+                    </div>
+                    
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>压缩结果</span>
+                            <div class="panel-stats">
+                                <span id="minifyOutputStats">字符: 0</span>
+                                <span id="compressionRatio" class="compression-ratio">压缩率: 0%</span>
+                            </div>
+                        </div>
+                        <div id="minifyOutput" class="json-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JSON对比工具 -->
+            <div class="tool-section" id="compare">
+                <div class="tool-header">
+                    <h2><i class="fas fa-exchange-alt"></i> JSON对比</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="compareBtn">
+                            <i class="fas fa-balance-scale"></i> 对比
+                        </button>
+                        <button class="btn btn-secondary" id="clearCompareBtn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="compare-container">
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>JSON A</span>
+                        </div>
+                        <textarea id="compareInputA" placeholder="请输入第一个JSON..."></textarea>
+                    </div>
+                    
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>JSON B</span>
+                        </div>
+                        <textarea id="compareInputB" placeholder="请输入第二个JSON..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="compare-result">
+                    <div class="result-header">
+                        <span>对比结果</span>
+                    </div>
+                    <div id="compareResult" class="result-content">
+                        <div class="result-placeholder">
+                            <i class="fas fa-balance-scale"></i>
+                            <p>请输入两个JSON进行对比</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Base64工具 -->
+            <div class="tool-section" id="base64">
+                <div class="tool-header">
+                    <h2><i class="fas fa-key"></i> Base64编码/解码</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="encodeBtn">
+                            <i class="fas fa-lock"></i> 编码
+                        </button>
+                        <button class="btn btn-primary" id="decodeBtn">
+                            <i class="fas fa-unlock"></i> 解码
+                        </button>
+                        <button class="btn btn-secondary" id="clearBase64Btn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="editor-container">
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>输入文本</span>
+                        </div>
+                        <textarea id="base64Input" placeholder="请输入需要编码或解码的文本..."></textarea>
+                    </div>
+                    
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>结果</span>
+                        </div>
+                        <textarea id="base64Output" placeholder="编码/解码结果将显示在这里..." readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- URL编码工具 -->
+            <div class="tool-section" id="url">
+                <div class="tool-header">
+                    <h2><i class="fas fa-link"></i> URL编码/解码</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="urlEncodeBtn">
+                            <i class="fas fa-lock"></i> 编码
+                        </button>
+                        <button class="btn btn-primary" id="urlDecodeBtn">
+                            <i class="fas fa-unlock"></i> 解码
+                        </button>
+                        <button class="btn btn-secondary" id="clearUrlBtn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="editor-container">
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>输入URL</span>
+                        </div>
+                        <textarea id="urlInput" placeholder="请输入需要编码或解码的URL..."></textarea>
+                    </div>
+                    
+                    <div class="editor-panel">
+                        <div class="panel-header">
+                            <span>结果</span>
+                        </div>
+                        <textarea id="urlOutput" placeholder="编码/解码结果将显示在这里..." readonly></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时间戳工具 -->
+            <div class="tool-section" id="timestamp">
+                <div class="tool-header">
+                    <h2><i class="fas fa-clock"></i> 时间戳转换</h2>
+                    <div class="tool-actions">
+                        <button class="btn btn-primary" id="nowBtn">
+                            <i class="fas fa-clock"></i> 当前时间
+                        </button>
+                        <button class="btn btn-secondary" id="clearTimestampBtn">
+                            <i class="fas fa-trash"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="timestamp-container">
+                    <div class="timestamp-panel">
+                        <div class="panel-header">
+                            <span>时间戳 → 日期时间</span>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="timestampInput" placeholder="请输入时间戳 (秒或毫秒)">
+                            <button class="btn btn-primary" id="timestampToDateBtn">转换</button>
+                        </div>
+                        <div class="result-display" id="timestampResult"></div>
+                    </div>
+                    
+                    <div class="timestamp-panel">
+                        <div class="panel-header">
+                            <span>日期时间 → 时间戳</span>
+                        </div>
+                        <div class="input-group">
+                            <input type="datetime-local" id="dateInput">
+                            <button class="btn btn-primary" id="dateToTimestampBtn">转换</button>
+                        </div>
+                        <div class="result-display" id="dateResult"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 JSON工具. 一个功能强大的在线JSON处理工具集合.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
